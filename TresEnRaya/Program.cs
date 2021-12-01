@@ -4,17 +4,22 @@ namespace TresEnRaya
 {
     public static class Game
     {
-        public static string[,] board = { {" ", " ", " "},
-                                          {" ", " ", " "},
-                                          {" ", " ", " "}
-                                        };
+        public static readonly char[] squareLetterCharacters = { 'A', 'B', 'C' };
+        public static readonly char[] squareNumCharacters = { '1', '2', '3' };
+
+        public static char[,] board = { {' ', ' ', ' '},
+                                        {' ', ' ', ' '},
+                                        {' ', ' ', ' '}
+                                      };
         public static int round = 0;
+        public static bool haveWiner = false;
     }
     class Program
     {
-        public static void PrintStartScreen()
+        public static void PrintStartScreen() //commited
         {
-            do {
+            do
+            {
                 Console.Clear();
 
                 Console.WriteLine("================================================");
@@ -38,17 +43,19 @@ namespace TresEnRaya
                 Console.WriteLine("///////////////////////||///////////////////////");
             } while (Console.ReadKey().Key != ConsoleKey.Enter);
 
-            //while (Console.ReadKey().Key != ConsoleKey.Enter) { }
-
             Game.round = 0;
         }
 
         public static void GameMain()
         {
-
+            do
+            {
+                PrintGameScreen();
+                Game.round++;
+            } while (Game.round < 9 && !Game.haveWiner);
         }
 
-        public static void PrintGameScreen()
+        public static void PrintGameScreen() //commited
         {
             string turn = ChekTurn();
             string playerSquare;
@@ -77,7 +84,8 @@ namespace TresEnRaya
                 Console.WriteLine("////////////////////////////////////////////////");
                 Console.WriteLine("// Es el turno de {0}:  ||///////////////////////", turn);
                 playerSquare = Console.ReadLine().ToUpper().Trim();
-            } while (FilterSquare(playerSquare));
+            } while (!FilterUserSquare(playerSquare) || !CheckSquareOccupancy(playerSquare));
+            AssignSquare(playerSquare);
         }
 
         public static string ChekTurn()
@@ -89,23 +97,43 @@ namespace TresEnRaya
             return currentTurn;
         }
 
-        public static bool FilterSquare(string userSquare)
+        public static bool FilterUserSquare(string userSquare) //commited
         {
-            char[] rightCharacters = { 'A', 'B', 'C', '1', '2', '3' };
+            /* --------------------------------------------------------------------------------------------------- DESCARTE - Sustituido por 'Game.rightLetterCharacters'
+            char[] rightLetterCharacters = { 'A', 'B', 'C' };
+            char[] rightNumCharacters = { '1', '2', '3' };
+            --------------------------------------------------------------------------------------------------- */
             bool check1, check2, filter;
-            check1 = true;
-            check2 = true;
-            filter = true;
+            check1 = false;
+            check2 = false;
+            filter = false;
+
             if (userSquare.Length == 2)
             {
-                char[] vectorUSquare = userSquare.ToCharArray();
+                /* ----------------------------------------------------------------------------------------------- DESCARTE - Sustituido por función 'ArrangeSquareCharacters(userSquare)'
+                char[] vectorUserSquare = userSquare.ToCharArray();
+                ----------------------------------------------------------------------------------------------- */
+                char[] vectorUserSquare = ArrangeSquareCharacters(userSquare);
 
-                //Console.WriteLine("{0} - {1}", vectorUSquare[0], vectorUSquare[1]);
-                //Array.Sort(vectorUSquare);
-                //Console.WriteLine("{0} - {1}", vectorUSquare[0], vectorUSquare[1]);
-                //Console.ReadKey();
+                /* ----------------------------------------------------------------------------------------------- TEST - PRUEBAS PARA ORDENAR EL VECTOR 'vectorUserSquare'
+                Console.WriteLine("{0} - {1}", vectorUSquare[0], vectorUSquare[1]);
+                Array.Sort(vectorUSquare);
+                Console.WriteLine("{0} - {1}", vectorUSquare[0], vectorUSquare[1]);
+                Array.Reverse(vectorUSquare);
+                Console.WriteLine("{0} - {1}", vectorUSquare[0], vectorUSquare[1]);
+                Console.ReadKey(); 
+                ----------------------------------------------------------------------------------------------- */
 
-                /*if (vectorUSquare[0] == 'A' || vectorUSquare[0] == 'B' || vectorUSquare[0] == 'C')
+                /* ----------------------------------------------------------------------------------------------- DESCARTE - Sustituido por función 'ArrangeSquareCharacters(userSquare)'
+                //--- Ordenamos el vector para que la letra esté siempre en posición [0]
+                Array.Sort(vectorUserSquare);
+                Array.Reverse(vectorUserSquare);
+                //---
+                ----------------------------------------------------------------------------------------------- */
+
+
+                /* ----------------------------------------------------------------------------------------------- DESCARTE - PRIMERA MANERA
+                if (vectorUSquare[0] == 'A' || vectorUSquare[0] == 'B' || vectorUSquare[0] == 'C')
                 {
                     if (vectorUSquare[1] == '1' || vectorUSquare[1] == '2' || vectorUSquare[1] == '3')
                     {
@@ -118,22 +146,96 @@ namespace TresEnRaya
                     {
                         filter = false;
                     }
-                }*/
-                foreach (char character in rightCharacters)
-                {
-                    if (vectorUSquare[0] == character) { check1 = false; }
-                    if (vectorUSquare[1] == character) { check2 = false; }
                 }
-                if(!check1 && !check2) { filter = false; }
+                ----------------------------------------------------------------------------------------------- */
 
+                foreach (char character in Game.squareLetterCharacters)
+                {
+                    if (vectorUserSquare[0] == character) { check1 = true; }
+                }
+                foreach (char character in Game.squareNumCharacters)
+                {
+                    if (vectorUserSquare[1] == character) { check2 = true; }
+                }
+                if(check1 && check2) { filter = true; }
             }
             
             return filter;
         }
 
-        public static void AssignSquare(string squareLetter, int squareNum)
+        public static char[] ArrangeSquareCharacters(string userSquare)
         {
+            char[] vectorUserSquare = userSquare.ToCharArray();
 
+            //--- Ordenamos el vector para que la letra esté siempre en posición [0]
+            Array.Sort(vectorUserSquare);
+            Array.Reverse(vectorUserSquare);
+            //---
+
+            return vectorUserSquare;
+        }
+
+        public static int[] TranslateUserSquare(string userSquare)
+        {
+            int[] boardSquare= new int[2];
+            char[] vectorUserSquare = ArrangeSquareCharacters(userSquare);
+
+            switch (vectorUserSquare[0])
+            {
+                case 'A':
+                    boardSquare[0] = 0;
+                    break;
+                case 'B':
+                    boardSquare[0] = 1;
+                    break;
+                case 'C':
+                    boardSquare[0] = 2;
+                    break;
+            }
+            switch (vectorUserSquare[1])
+            {
+                case '1':
+                    boardSquare[1] = 0;
+                    break;
+                case '2':
+                    boardSquare[1] = 1;
+                    break;
+                case '3':
+                    boardSquare[1] = 2;
+                    break;
+            }
+
+            return boardSquare;
+        }
+
+        public static bool CheckSquareOccupancy(string userSquare)
+        {
+            bool check = false;
+
+            int[] boardSquare = TranslateUserSquare(userSquare);
+
+            if (Game.board[boardSquare[0],boardSquare[1]] == ' ') 
+            {
+                check = true;
+            }
+
+            return check;
+        }
+
+        public static void AssignSquare(string userSquare)
+        {
+            char token = ' ';
+            string turn = ChekTurn();
+
+            if(turn == "P1") { token = 'X'; }
+            else if(turn == "P2") { token = 'O'; }
+
+            if (FilterUserSquare(userSquare))
+            {
+                int[] boardSquare = TranslateUserSquare(userSquare);
+
+                Game.board[boardSquare[0], boardSquare[1]] = token;
+            }
         }
 
 
@@ -142,8 +244,7 @@ namespace TresEnRaya
             do
             {
                 PrintStartScreen();
-                // Console.Clear();
-                PrintGameScreen();
+                GameMain();
             } while (true);
         }
     }
