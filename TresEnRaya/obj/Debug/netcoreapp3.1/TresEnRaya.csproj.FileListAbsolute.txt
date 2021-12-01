@@ -1,0 +1,14 @@
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\bin\Debug\netcoreapp3.1\TresEnRaya.exe
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\bin\Debug\netcoreapp3.1\TresEnRaya.deps.json
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\bin\Debug\netcoreapp3.1\TresEnRaya.runtimeconfig.json
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\bin\Debug\netcoreapp3.1\TresEnRaya.runtimeconfig.dev.json
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\bin\Debug\netcoreapp3.1\TresEnRaya.dll
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\bin\Debug\netcoreapp3.1\TresEnRaya.pdb
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.csproj.AssemblyReference.cache
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.GeneratedMSBuildEditorConfig.editorconfig
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.AssemblyInfoInputs.cache
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.AssemblyInfo.cs
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.csproj.CoreCompileInputs.cache
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.dll
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.pdb
+D:\TRB-5-PF\PF-TresEnRaya\TresEnRaya\TresEnRaya\obj\Debug\netcoreapp3.1\TresEnRaya.genruntimeconfig.cache
