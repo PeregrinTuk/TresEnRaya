@@ -2,7 +2,7 @@
 
 namespace TresEnRaya
 {
-    public static class Game
+    static class Game
     {
         public static readonly char[] squareLetterCharacters = { 'A', 'B', 'C' };
         public static readonly char[] squareNumCharacters = { '1', '2', '3' };
@@ -16,7 +16,7 @@ namespace TresEnRaya
     }
     class Program
     {
-        public static void PrintStartScreen() //commited
+        static void PrintStartScreen() //commited
         {
             do
             {
@@ -43,10 +43,11 @@ namespace TresEnRaya
                 Console.WriteLine("///////////////////////||///////////////////////");
             } while (Console.ReadKey().Key != ConsoleKey.Enter);
 
+            ResetBoard();
             Game.round = 0;
         }
 
-        public static void GameMain()
+        static void MainGame()
         {
             do
             {
@@ -55,9 +56,9 @@ namespace TresEnRaya
             } while (Game.round < 9 && !Game.haveWiner);
         }
 
-        public static void PrintGameScreen() //commited
+        static void PrintGameScreen() //commited
         {
-            string turn = ChekTurn();
+            string turn = CheckTurn();
             string playerSquare;
 
             do
@@ -87,8 +88,55 @@ namespace TresEnRaya
             } while (!FilterUserSquare(playerSquare) || !CheckSquareOccupancy(playerSquare));
             AssignSquare(playerSquare);
         }
+        
+        static void PrintGameOverScreen()
+        {
+            string turn = CheckTurn();
 
-        public static string ChekTurn()
+            do
+            {
+                Console.Clear();
+
+                Console.WriteLine("================================================");
+                Console.WriteLine("================= TRES EN RAYA =================");
+                Console.WriteLine("================================================");
+
+                Console.WriteLine("////////////////////////////////////////////////");
+                Console.WriteLine("/////////////  P1 = X  ||  P2 = O  /////////////");
+                Console.WriteLine("////////////////////////////////////////////////");
+
+                if (Game.haveWiner)
+                {
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{2}//////", "\u2550", "\u2554", "\u2557");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}  GAME  OVER  {0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}      --      {0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}   {2}  win!   {0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551", turn);
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{2}//////", "\u2550", "\u255A", "\u255D");
+                }
+                else
+                {
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{2}//////", "\u2550", "\u2554", "\u2557");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}      --      {0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}  GAME  OVER  {0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}      --      {0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{1}//////", "\u2591", "\u2551");
+                    Console.WriteLine("//////{1}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{2}//////", "\u2550", "\u255A", "\u255D");
+
+                }
+
+                Console.WriteLine("///////////// C || {0} || {1} || {2} ||  /////////////", Game.board[2,0], Game.board[2,1], Game.board[2,2]);
+                Console.WriteLine("/////////////   ||---||---||---||  /////////////");
+                Console.WriteLine("/////////////                      /////////////");
+                Console.WriteLine("////////////////////////////////////////////////");
+                Console.WriteLine("////////////////| Press ENTER |/////////////////");
+                Console.WriteLine("////////////////////////////////////////////////");
+            } while (Console.ReadKey().Key != ConsoleKey.Enter);
+        }
+
+        static string CheckTurn() //commited
         {
             string currentTurn;
             if (Game.round % 2 == 0) { currentTurn = "P1"; }
@@ -97,7 +145,7 @@ namespace TresEnRaya
             return currentTurn;
         }
 
-        public static bool FilterUserSquare(string userSquare) //commited
+        static bool FilterUserSquare(string userSquare) //commited
         {
             /* --------------------------------------------------------------------------------------------------- DESCARTE - Sustituido por 'Game.rightLetterCharacters'
             char[] rightLetterCharacters = { 'A', 'B', 'C' };
@@ -163,7 +211,7 @@ namespace TresEnRaya
             return filter;
         }
 
-        public static char[] ArrangeSquareCharacters(string userSquare)
+        static char[] ArrangeSquareCharacters(string userSquare) //commited
         {
             char[] vectorUserSquare = userSquare.ToCharArray();
 
@@ -175,7 +223,7 @@ namespace TresEnRaya
             return vectorUserSquare;
         }
 
-        public static int[] TranslateUserSquare(string userSquare)
+        static int[] TranslateUserSquare(string userSquare) //commited
         {
             int[] boardSquare= new int[2];
             char[] vectorUserSquare = ArrangeSquareCharacters(userSquare);
@@ -208,7 +256,7 @@ namespace TresEnRaya
             return boardSquare;
         }
 
-        public static bool CheckSquareOccupancy(string userSquare)
+        static bool CheckSquareOccupancy(string userSquare) //commited
         {
             bool check = false;
 
@@ -222,10 +270,10 @@ namespace TresEnRaya
             return check;
         }
 
-        public static void AssignSquare(string userSquare)
+        static void AssignSquare(string userSquare) //commited
         {
             char token = ' ';
-            string turn = ChekTurn();
+            string turn = CheckTurn();
 
             if(turn == "P1") { token = 'X'; }
             else if(turn == "P2") { token = 'O'; }
@@ -238,13 +286,28 @@ namespace TresEnRaya
             }
         }
 
+        static void ResetBoard()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Game.board[i, j] = ' ';
+                }
+            }
+                
 
-        static void Main(string[] args)
+        }
+
+
+
+        static void Main()
         {
             do
             {
                 PrintStartScreen();
-                GameMain();
+                MainGame();
+                PrintGameOverScreen();
             } while (true);
         }
     }
