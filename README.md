@@ -10,6 +10,9 @@
 ## General Info
 It's a small game created with the objective of practicing, learning and having fun while coding C#. 👨🏼‍💻
 
+## Project status
+Completed
+
 ## Technologies
 The language used for this project:
 
